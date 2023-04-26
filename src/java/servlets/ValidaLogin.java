@@ -8,10 +8,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author QI
- */
 @WebServlet(name = "ValidaLogin", urlPatterns = {"/verifica_usuario.java"})
 public class ValidaLogin extends HttpServlet {
 
@@ -19,8 +15,28 @@ public class ValidaLogin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String user = request.getParameter("user");
+        String pass = request.getParameter("pass");
+        
+        String userDb = "miguel@gmail.com";
+        String passDb = "password1234";
+        
+        if(user.equals(userDb) && pass.equals(passDb)){
+            request.setAttribute("userName", user);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+        } else {
+            PrintWriter out = response.getWriter();
+            out.print(
+                     "<script>"
+                    +"alert('Acesso negado!');"
+                    +"window.location.replace('index.html');"
+                    +"<script>"
+            );
+            
+        }
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+          
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
